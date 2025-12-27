@@ -1,5 +1,7 @@
 {{define "editor"}}
 <div id="editor-page">
+    <h1>Open Project: {{.Name}}</h1>
+    
     <button hx-get="/project/close"
         hx-trigger="click"
         hx-target="#editor-page"

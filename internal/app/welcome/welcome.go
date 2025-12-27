@@ -1,14 +1,12 @@
 package welcome
 
 import (
-	"io"
 	"log"
 	"strings"
 
 	"github.com/labstack/echo/v4"
 	"github.com/palo-verde-digital/test-composer/internal/app/window"
 	"github.com/palo-verde-digital/test-composer/internal/pkg/project"
-	"gopkg.in/yaml.v3"
 )
 
 type errorData struct {
@@ -30,49 +28,34 @@ func RegisterRoutes(e *echo.Echo) {
 func createProject(c echo.Context) error {
 
 	log.Print("start - welcome.createProject")
-	errData := errorData{}
+	defer log.Print("end - welcome.createProject")
 
-	if projectName := c.FormValue(projectNameInput); strings.TrimSpace(projectName) == "" {
-		errData.CreateError = "error: project name is required"
-		log.Printf("welcome.createProject - %s", errData.CreateError)
-
-		return c.Render(200, window.WelcomeTemplateName, errData)
-	} else {
-		project.OpenProject = &project.Project{
-			Name: projectName,
-		}
-
-		log.Print("end - welcome.createProject")
-		return c.Render(200, window.EditorTemplateName, project.OpenProject)
+	projectName := c.FormValue(projectNameInput)
+	if strings.TrimSpace(projectName) == "" {
+		return c.Render(200, window.WelcomeTemplateName, errorData{CreateError: "project name is required"})
 	}
+
+	project.Create(projectName)
+
+	return c.Render(200, window.EditorTemplateName, project.OpenProject)
 
 }
 
 func openProject(c echo.Context) error {
 
 	log.Print("start - welcome.openProject")
-	errData := errorData{}
+	defer log.Print("end - welcome.openProject")
 
-	if fileInfo, err := c.FormFile(projectFileInput); err != nil {
-		errData.OpenError = "error: unable to locate project file"
-	} else if filename := fileInfo.Filename; !strings.HasSuffix(filename, ".yaml") || !strings.HasSuffix(filename, ".yml") {
-		errData.OpenError = "error: project file must be .yml/.yaml"
-	} else if projectFile, err := fileInfo.Open(); err != nil {
-		errData.OpenError = "error: unable to open project file"
-	} else if fileContent, err := io.ReadAll(projectFile); err != nil {
-		errData.OpenError = "error: unable to read project file"
-	} else if err = yaml.Unmarshal(fileContent, project.OpenProject); err != nil {
-		errData.OpenError = "error: unable to read project data"
-	} else {
-		projectFile.Close()
+	fileInfo, err := c.FormFile(projectFileInput)
+	if err != nil {
+		return c.Render(200, window.WelcomeTemplateName, errorData{OpenError: "invalid file info"})
 	}
 
-	if errData.OpenError != "" {
-		log.Printf("welcome.openProject - %s", errData.OpenError)
-		return c.Render(200, window.WelcomeTemplateName, errData)
+	err = project.Read(fileInfo)
+	if err != nil {
+		return c.Render(200, window.WelcomeTemplateName, errorData{OpenError: err.Error()})
 	}
 
-	log.Print("end - welcome.openProject")
 	return c.Render(200, window.EditorTemplateName, project.OpenProject)
 
 }

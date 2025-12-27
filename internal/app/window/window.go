@@ -21,7 +21,8 @@ func RegisterRoutes(e *echo.Echo) {
 
 func app(c echo.Context) error {
 
-	log.Print("window.app")
+	log.Print("start - window.app")
+	defer log.Print("end - window.app")
 
 	return c.Render(200, TemplateName, project.OpenProject)
 

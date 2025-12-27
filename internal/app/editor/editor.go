@@ -17,9 +17,13 @@ func RegisterRoutes(e *echo.Echo) {
 func closeProject(c echo.Context) error {
 
 	log.Print("start - editor.closeProject")
-	project.OpenProject = nil
+	defer log.Print("end - editor.closeProject")
 
-	log.Printf("end - editor.closeProject")
+	err := project.Write()
+	if err != nil {
+		return c.Render(200, window.EditorTemplateName, project.OpenProject)
+	}
+
 	return c.Render(200, window.WelcomeTemplateName, nil)
 
 }
