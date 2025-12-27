@@ -1,0 +1,45 @@
+{{define "app"}}
+<!DOCTYPE html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"
+        integrity="sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz"
+        crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            background-color: #BFC0E0;
+            color: #1B1B37;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .error {
+            color: #EC442A;
+        }
+
+        .panel {
+            border: 3px dashed #1B1B37
+        }
+
+        input[type=text], input[type=file], input[type=submit] {
+            background-color: #F1F1F8;
+
+            border: 1px solid #1B1B37
+        }
+    </style>
+</head>
+
+<body>
+    {{if .}}
+    {{template "editor" .}}
+    {{else}}
+    {{template "welcome"}}
+    {{end}}
+</body>
+
+</html>
+{{end}}

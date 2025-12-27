@@ -1,0 +1,30 @@
+{{define "welcome"}}
+<div id="welcome-page">
+    <h1>Welcome Page</h1>
+
+    <div class="panel">
+        <form hx-post="/project/create"
+            hx-trigger="submit"
+            hx-target="#welcome-page"
+            hx-swap="outerHTML">
+                <input type="text" name="project-name" placeholder="project name" />
+                <input type="submit" name="project-submit" value="create project" />
+        </form>
+
+        <h4 class="error">{{.CreateError}}</h4>
+    </div>
+
+    <div class="panel">
+        <form hx-post="/project/open"
+            hx-trigger="submit"
+            hx-target="#welcome-page"
+            hx-swap="outerHTML"
+            enctype="multipart/form-data">
+                <input type="file" name="project-file" />
+                <input type="submit" name="open-project" value="open project" />
+        </form>
+
+        <h4 class="error">{{.OpenError}}</h4>
+    </div>
+</div>
+{{end}}

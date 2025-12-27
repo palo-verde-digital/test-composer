@@ -1,0 +1,10 @@
+{{define "editor"}}
+<div id="editor-page">
+    <button hx-get="/project/close"
+        hx-trigger="click"
+        hx-target="#editor-page"
+        hx-swap="outerHTML">
+            Close Project
+    </button>
+</div>
+{{end}}
