@@ -3,28 +3,34 @@
     <h1>Welcome Page</h1>
 
     <div class="panel">
-        <form hx-post="/project/create"
-            hx-trigger="submit"
-            hx-target="#welcome-page"
-            hx-swap="outerHTML">
-                <input type="text" name="project-name" placeholder="project name" />
-                <input type="submit" name="project-submit" value="create project" />
-        </form>
+        <div class="panel-section" id="create-project-form">
+            <h2>create project</h2>
 
-        <h4 class="error">{{.CreateError}}</h4>
-    </div>
+            <form hx-post="/project/create"
+                hx-trigger="submit"
+                hx-target="#welcome-page"
+                hx-swap="outerHTML">
+                    <input type="text" name="project-name" placeholder="project name" />
+                    <input type="submit" name="project-submit" value="create project" />
+            </form>
 
-    <div class="panel">
-        <form hx-post="/project/open"
-            hx-trigger="submit"
-            hx-target="#welcome-page"
-            hx-swap="outerHTML"
-            enctype="multipart/form-data">
-                <input type="file" name="project-file" />
-                <input type="submit" name="open-project" value="open project" />
-        </form>
+            <h4 class="error"> {{.CreateError}}</h4>
+        </div>
 
-        <h4 class="error">{{.OpenError}}</h4>
+        <div class="panel-section" id="open-project-form">
+            <h2>open project</h2>
+
+            <form hx-post="/project/open"
+                hx-trigger="submit"
+                hx-target="#welcome-page"
+                hx-swap="outerHTML"
+                enctype="multipart/form-data">
+                    <input type="file" name="project-file" />
+                    <input type="submit" name="open-project" value="open project" />
+            </form>
+
+            <h4 class="error"> {{.OpenError}}</h4>
+        </div>
     </div>
 </div>
 {{end}}

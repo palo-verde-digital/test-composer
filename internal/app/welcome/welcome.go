@@ -9,7 +9,7 @@ import (
 	"github.com/palo-verde-digital/test-composer/internal/pkg/project"
 )
 
-type errorData struct {
+type welcomeData struct {
 	CreateError, OpenError string
 }
 
@@ -32,7 +32,7 @@ func createProject(c echo.Context) error {
 
 	projectName := c.FormValue(projectNameInput)
 	if strings.TrimSpace(projectName) == "" {
-		return c.Render(200, window.WelcomeTemplateName, errorData{CreateError: "project name is required"})
+		return c.Render(200, window.WelcomeTemplateName, welcomeData{CreateError: "project name is required"})
 	}
 
 	project.Create(projectName)
@@ -48,12 +48,12 @@ func openProject(c echo.Context) error {
 
 	fileInfo, err := c.FormFile(projectFileInput)
 	if err != nil {
-		return c.Render(200, window.WelcomeTemplateName, errorData{OpenError: "invalid file info"})
+		return c.Render(200, window.WelcomeTemplateName, welcomeData{OpenError: "invalid file info"})
 	}
 
 	err = project.Read(fileInfo)
 	if err != nil {
-		return c.Render(200, window.WelcomeTemplateName, errorData{OpenError: err.Error()})
+		return c.Render(200, window.WelcomeTemplateName, welcomeData{OpenError: err.Error()})
 	}
 
 	return c.Render(200, window.EditorTemplateName, project.OpenProject)
