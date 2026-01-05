@@ -37,7 +37,7 @@ func createProject(c echo.Context) error {
 
 	project.Create(projectName)
 
-	return c.Render(200, window.EditorTemplateName, project.OpenProject)
+	return c.Render(200, window.EditorTemplateName, projectName)
 
 }
 
@@ -56,6 +56,6 @@ func openProject(c echo.Context) error {
 		return c.Render(200, window.WelcomeTemplateName, welcomeData{OpenError: err.Error()})
 	}
 
-	return c.Render(200, window.EditorTemplateName, project.OpenProject)
+	return c.Render(200, window.EditorTemplateName, project.OpenProject.Name)
 
 }

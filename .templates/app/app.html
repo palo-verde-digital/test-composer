@@ -1,60 +1,88 @@
-{{define "app"}}
-<!DOCTYPE html>
-
-<head>
-    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"
-        integrity="sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz"
-        crossorigin="anonymous"></script>
-
-    <style>
-        body {
-            background-color: #BFC0E0;
-            color: #1B1B37;
-
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            align-items: center;
-        }
-
-        .error {
-            color: #EC442A;
-        }
-
-        .panel {
-            padding: 8px;
-
-            border: 3px dashed #1B1B37;
-            border-radius: 24px;
-        }
-
-        .panel-section {
-            padding: 8px;
-
-            border: 1px solid #1B1B37;
-            border-radius: 16px;
-        }
-
-        .panel-section:not(:last-child) {
-            margin-bottom: 8px;
-        }
-
-        input[type=text], input[type=file], input[type=submit] {
-            background-color: #F1F1F8;
-
-            border: 1px solid #1B1B37;
-            border-radius: 8px;
-        }
-    </style>
-</head>
-
-<body>
-    {{if .}}
-    {{template "editor" .}}
-    {{else}}
-    {{template "welcome"}}
+{{define "apps"}}
+    {{range $appId, $app := .}}
+        <div id="panel-apps-{{$appId}}"
+            hx-get="/project/app/{{$appId}}"
+            hx-trigger="load"
+            hx-swap="outerHTML"
+            hx-target="#panel-apps-{{$appId}}"></div>
     {{end}}
-</body>
 
-</html>
+    <button hx-get="/project/app/create" 
+        hx-trigger="click"
+        hx-swap="innerHTML"
+        hx-target="#panel-apps-content">+</button>
+{{end}}
+
+{{define "app"}}
+    <div id="panel-apps-{{.Id}}" style="border: 1px dashed #F1F1F8;">
+        <form>
+            <label for="project-{{.Id}}-image">container image {{ .Errors.image }}</label>
+                
+            <input type="text" 
+                name="project-{{.Id}}-image" 
+                value="{{ .App.Image }}" 
+                hx-post="/project/app/{{.Id}}/image"
+                hx-trigger="change delay:500ms" 
+                hx-swap="outerHTML"
+                hx-target="#panel-apps-{{.Id}}" />
+
+        <table id="project-{{.Id}}-env">
+            <tr>
+                <th>environment variable</th>
+                <th>value</th>
+            </tr>
+
+            {{range $envId, $env := .App.Env}}
+            <tr>
+                <td>
+                    <input type="text" 
+                        name="project-{{$.Id}}-env-{{$envId}}-key" 
+                        value="{{$env.Key}}"
+                        hx-post="/project/app/{{$.Id}}/env/{{$envId}}"
+                        hx-trigger="change delay:500ms" 
+                        hx-swap="none" />
+                </td>
+
+                <td>
+                    <input type="text"
+                        name="project-{{$.Id}}-env-{{$envId}}-val"
+                        value="{{$env.Value}}"
+                        hx-post="/project/app/{{$.Id}}/env/{{$envId}}"
+                        hx-trigger="change delay:500ms"
+                        hx-swap="none" />
+                </td>
+
+                <td>
+                    <button hx-delete="/project/app/{{$.Id}}/env/{{$envId}}"
+                        hx-trigger="click"
+                        hx-swap="outerHTML"
+                        hx-target="#panel-apps-{{$.Id}}">delete</button>
+                </td>
+            </tr>
+            {{end}}
+
+            <tr>
+                <td>
+                    <input type="text" name="project-{{.Id}}-env-key" />
+                </td>
+
+                <td>
+                    <input type="text" name="project-{{.Id}}-env-val" />
+                </td>
+
+                <td>
+                    <button hx-post="/project/app/{{.Id}}/env" 
+                        hx-trigger="click"
+                        hx-swap="outerHTML"
+                        hx-target="#panel-apps-{{.Id}}">+</button>
+                </td>
+            </tr>
+        </table>
+
+        <button hx-delete="/project/app/{{.Id}}" 
+            hx-trigger="click" 
+            hx-swap="innerHTML"
+            hx-target="#panel-apps-content">delete</button>
+    </form>
+</div>
 {{end}}

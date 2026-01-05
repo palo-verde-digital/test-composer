@@ -1,12 +1,66 @@
 {{define "editor"}}
-<div id="editor-page">
-    <h1>Open Project: {{.Name}}</h1>
-    
-    <button hx-get="/project/close"
-        hx-trigger="click"
-        hx-target="#editor-page"
-        hx-swap="outerHTML">
-            Close Project
+<div class="panel" id="editor-page">
+    <h1>open project: {{.}}</h1>
+
+    <div class="panel-container">
+        <div class="panel-section">
+            <script>
+                function openTab(e, tab) {
+                    var contents = document.getElementsByClassName("tabcontent");
+                    for (let i = 0; i < contents.length; i++) {
+                        contents[i].style.display = "none";
+                    }
+
+                    var tabs = document.getElementsByClassName("tab");
+                    for (let i = 0; i < tabs.length; i++) {
+                        tabs[i].className = tabs[i].className.replace(" active", "");
+                    }
+
+                    document.getElementById("panel-" + tab).style.display = "block";
+                    e.currentTarget.className += " active";
+                }
+            </script>
+
+            <ul class="tabs">
+                <li>
+                    <a href="javascript:void(0)" class="tab active" onclick="openTab(event, 'apps')">apps</a>
+                </li>
+
+                <li>
+                    <a href="javascript:void(0)" class="tab"onclick="openTab(event, 'infrastructure')">infrastructure</a>
+                </li>
+
+                <li>
+                    <a href="javascript:void(0)" class="tab" onclick="openTab(event, 'test')">tests</a>
+                </li>
+            </ul>
+
+            <div>
+                <div id="panel-apps" class="tabcontent" style="display: block;">
+                    <div id="panel-apps-content" 
+                        hx-get="/project/app"
+                        hx-trigger="load"
+                        hx-swap="innerHTML"
+                        hx-target="#panel-apps-content"></div>
+                </div>
+
+                <div id="panel-infrastructure" class="tabcontent" style="display: none;">
+                    this is the infra panel
+                </div>
+
+                <div id="panel-test" class="tabcontent" style="display: none;">
+                    this is the test panel
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-section">
+
+        </div>
+    </div>
+
+    <button hx-get="/project/close" hx-trigger="click" hx-target="#editor-page" hx-swap="outerHTML">
+        close project
     </button>
 </div>
 {{end}}

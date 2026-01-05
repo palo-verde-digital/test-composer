@@ -8,9 +8,11 @@ import (
 )
 
 const (
-	TemplateName        = "app"
+	TemplateName        = "index"
 	WelcomeTemplateName = "welcome"
 	EditorTemplateName  = "editor"
+	AppsTemplateName    = "apps"
+	AppTemplateName     = "app"
 )
 
 func RegisterRoutes(e *echo.Echo) {
@@ -24,6 +26,10 @@ func app(c echo.Context) error {
 	log.Print("start - window.app")
 	defer log.Print("end - window.app")
 
-	return c.Render(200, TemplateName, project.OpenProject)
+	if project.OpenProject != nil {
+		return c.Render(200, TemplateName, project.OpenProject.Name)
+	}
+
+	return c.Render(200, TemplateName, nil)
 
 }

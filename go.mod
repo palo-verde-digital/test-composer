@@ -3,6 +3,7 @@ module github.com/palo-verde-digital/test-composer
 go 1.25.4
 
 require (
+	github.com/google/uuid v1.6.0
 	github.com/labstack/echo/v4 v4.14.0
 	gopkg.in/yaml.v3 v3.0.1
 )

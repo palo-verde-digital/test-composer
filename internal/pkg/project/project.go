@@ -7,6 +7,8 @@ import (
 	"os"
 	"strings"
 
+	"github.com/palo-verde-digital/test-composer/internal/pkg/infrastructure"
+	"github.com/palo-verde-digital/test-composer/internal/pkg/testcase"
 	"gopkg.in/yaml.v3"
 )
 
@@ -15,14 +17,19 @@ var (
 )
 
 type Project struct {
-	Name         string       `yaml:"name"`
-	Dependencies []Dependency `yaml:"dependencies"`
+	Name           string                         `yaml:"name"`
+	Apps           map[string]Application         `yaml:"apps"`
+	Tests          map[string]testcase.TestCase   `yaml:"tests"`
+	Infrastructure *infrastructure.Infrastructure `yaml:"infrastructure"`
 }
 
 func Create(projectName string) {
 
 	OpenProject = &Project{
-		Name: projectName,
+		Name:           projectName,
+		Apps:           make(map[string]Application),
+		Tests:          make(map[string]testcase.TestCase),
+		Infrastructure: &infrastructure.Infrastructure{},
 	}
 
 }

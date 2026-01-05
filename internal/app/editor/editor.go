@@ -8,9 +8,25 @@ import (
 	"github.com/palo-verde-digital/test-composer/internal/pkg/project"
 )
 
+type EditorData struct {
+	Errors  map[string]string
+	Project *project.Project
+}
+
 func RegisterRoutes(e *echo.Echo) {
 
 	e.GET("/project/close", closeProject)
+
+	e.GET("/project/app", readApps)
+	e.GET("/project/app/:appId", readApp)
+	e.GET("/project/app/create", createApp)
+
+	e.POST("/project/app/:appId/image", updateAppImage)
+	e.POST("/project/app/:appId/env", createAppEnv)
+	e.POST("/project/app/:appId/env/:envId", updateAppEnv)
+
+	e.DELETE("/project/app/:appId", deleteApp)
+	e.DELETE("/project/app/:appId/env/:envId", deleteAppEnv)
 
 }
 
