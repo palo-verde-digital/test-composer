@@ -33,6 +33,8 @@ func initServer() *echo.Echo {
 
 func registerRoutes(e *echo.Echo) *echo.Echo {
 
+	e.Static("/dist", ".dist")
+
 	window.RegisterRoutes(e)
 	welcome.RegisterRoutes(e)
 	editor.RegisterRoutes(e)

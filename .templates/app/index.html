@@ -1,128 +1,20 @@
 {{define "index"}}
-<!DOCTYPE html>
+    <!DOCTYPE html>
 
-<head>
-    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"
-        integrity="sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz"
-        crossorigin="anonymous"></script>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"
+            integrity="sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz"
+            crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="/dist/main.css" />
+    </head>
 
-    <style>
-        body {
-            background-color: #2D2D45;
-            color: #F1F1F8;
+    <body>
+        {{if .}}
+            {{template "editor" .}}
+        {{else}}
+            {{template "welcome"}}
+        {{end}}
+    </body>
 
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            align-items: center;
-        }
-
-        .error {
-            color: #F52100;
-        }
-
-        .panel {
-            padding: 8px;
-
-            border: 2px dashed #F1F1F8;
-            border-radius: 24px;
-
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .panel-section {
-            padding: 8px;
-
-            border: 1px solid #F1F1F8;
-            border-radius: 16px;
-
-            display: flex;
-            flex-direction: column;
-        }
-
-        .panel-container {
-            display: flex;
-            flex-direction: row;
-            justify-content: start;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .tabs {
-            padding: 0;
-            margin-bottom: 0;
-
-            display: flex;
-            flex-direction: row;
-
-            list-style-type: none;
-        }
-
-        .tab {
-            border: 1px solid #F1F1F8;
-
-            padding-left: 5px;
-            padding-right: 5px;
-
-            text-decoration: none;
-        }
-
-        .tab-content {
-            border: 1px solid #F1F1F8;
-        }
-
-        .expanding-label {
-            display: flex;
-            flex-direction: row;
-
-            margin-top: 0px;
-            margin-bottom: 0px;
-        }
-
-        input[type=text], input[type=file], input[type=submit] {
-            background-color: #F1F1F8;
-            color: #2D2D45;
-
-            padding: 3px;
-
-            border: 0px;
-            border-radius: 8px;
-        }
-
-        input[type=text]:focus {
-            outline: none;
-        }
-
-        input[type=submit] {
-            color: #E4FF5C;
-            background-color: #556600;
-        }
-
-        input[type=file]::file-selector-button {
-            color: #F8BDB4;
-            background-color: #F52100;
-            
-            border: 0px;
-            border-radius: 5px;            
-        }
-
-        input[type=text].table-item {
-            border-radius: 0;
-        }
-    </style>
-</head>
-
-<body>
-    {{if .}}
-        {{template "editor" .}}
-    {{else}}
-        {{template "welcome"}}
-    {{end}}
-</body>
-
-</html>
+    </html>
 {{end}}
