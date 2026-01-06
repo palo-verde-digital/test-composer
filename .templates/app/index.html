@@ -71,8 +71,16 @@
             text-decoration: none;
         }
 
-        .tabcontent {
+        .tab-content {
             border: 1px solid #F1F1F8;
+        }
+
+        .expanding-label {
+            display: flex;
+            flex-direction: row;
+
+            margin-top: 0px;
+            margin-bottom: 0px;
         }
 
         input[type=text], input[type=file], input[type=submit] {
@@ -100,6 +108,10 @@
             
             border: 0px;
             border-radius: 5px;            
+        }
+
+        input[type=text].table-item {
+            border-radius: 0;
         }
     </style>
 </head>

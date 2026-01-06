@@ -14,75 +14,73 @@
 {{end}}
 
 {{define "app"}}
-    <div id="panel-apps-{{.Id}}" style="border: 1px dashed #F1F1F8;">
+    <div id="panel-apps-{{.Id}}" style="border: 1px dashed #F1F1F8; padding: 5px;">
         <form>
-            <label for="project-{{.Id}}-image">container image {{ .Errors.image }}</label>
+            <label class="expanding-label" for="project-{{.Id}}-image">
+                <h4 style="margin: 0px;">container image |</h4>
+                <h4 style="margin: 0px;" class="error">{{ .Errors.image }}</h4>
+            </label>
                 
-            <input type="text" 
-                name="project-{{.Id}}-image" 
-                value="{{ .App.Image }}" 
+            <input type="text" name="project-{{.Id}}-image" value="{{ .App.Image }}" 
+                style="border-radius: 0;"
                 hx-post="/project/app/{{.Id}}/image"
                 hx-trigger="change delay:500ms" 
                 hx-swap="outerHTML"
                 hx-target="#panel-apps-{{.Id}}" />
 
-        <table id="project-{{.Id}}-env">
-            <tr>
-                <th>environment variable</th>
-                <th>value</th>
-            </tr>
+            <table id="project-{{.Id}}-env" style="margin-top: 5px; margin-bottom: 5px;">
+                <tr>
+                    <th>environment variable</th>
+                    <th>value</th>
+                </tr>
 
-            {{range $envId, $env := .App.Env}}
-            <tr>
-                <td>
-                    <input type="text" 
-                        name="project-{{$.Id}}-env-{{$envId}}-key" 
-                        value="{{$env.Key}}"
-                        hx-post="/project/app/{{$.Id}}/env/{{$envId}}"
-                        hx-trigger="change delay:500ms" 
-                        hx-swap="none" />
-                </td>
+                {{range $envId, $env := .App.Env}}
+                    <tr>
+                        <td>
+                            <input class="table-item" type="text" name="project-{{$.Id}}-env-{{$envId}}-key" value="{{$env.Key}}"
+                                hx-post="/project/app/{{$.Id}}/env/{{$envId}}"
+                                hx-trigger="change delay:500ms" 
+                                hx-swap="none" />
+                        </td>
 
-                <td>
-                    <input type="text"
-                        name="project-{{$.Id}}-env-{{$envId}}-val"
-                        value="{{$env.Value}}"
-                        hx-post="/project/app/{{$.Id}}/env/{{$envId}}"
-                        hx-trigger="change delay:500ms"
-                        hx-swap="none" />
-                </td>
+                        <td>
+                            <input class="table-item" type="text" name="project-{{$.Id}}-env-{{$envId}}-val" value="{{$env.Value}}"
+                                hx-post="/project/app/{{$.Id}}/env/{{$envId}}"
+                                hx-trigger="change delay:500ms"
+                                hx-swap="none" />
+                        </td>
 
-                <td>
-                    <button hx-delete="/project/app/{{$.Id}}/env/{{$envId}}"
-                        hx-trigger="click"
-                        hx-swap="outerHTML"
-                        hx-target="#panel-apps-{{$.Id}}">delete</button>
-                </td>
-            </tr>
-            {{end}}
+                        <td>
+                            <button hx-delete="/project/app/{{$.Id}}/env/{{$envId}}"
+                                hx-trigger="click"
+                                hx-swap="outerHTML"
+                                hx-target="#panel-apps-{{$.Id}}">delete</button>
+                        </td>
+                    </tr>
+                {{end}}
 
-            <tr>
-                <td>
-                    <input type="text" name="project-{{.Id}}-env-key" />
-                </td>
+                <tr>
+                    <td>
+                        <input class="table-item" type="text" name="project-{{.Id}}-env-key" />
+                    </td>
 
-                <td>
-                    <input type="text" name="project-{{.Id}}-env-val" />
-                </td>
+                    <td>
+                        <input class="table-item" type="text" name="project-{{.Id}}-env-val" />
+                    </td>
 
-                <td>
-                    <button hx-post="/project/app/{{.Id}}/env" 
-                        hx-trigger="click"
-                        hx-swap="outerHTML"
-                        hx-target="#panel-apps-{{.Id}}">+</button>
-                </td>
-            </tr>
-        </table>
+                    <td>
+                        <button hx-post="/project/app/{{.Id}}/env" 
+                            hx-trigger="click"
+                            hx-swap="outerHTML"
+                            hx-target="#panel-apps-{{.Id}}">+</button>
+                    </td>
+                </tr>
+            </table>
 
-        <button hx-delete="/project/app/{{.Id}}" 
-            hx-trigger="click" 
-            hx-swap="innerHTML"
-            hx-target="#panel-apps-content">delete</button>
-    </form>
-</div>
+            <button hx-delete="/project/app/{{.Id}}" 
+                hx-trigger="click" 
+                hx-swap="innerHTML"
+                hx-target="#panel-apps-content">delete</button>
+        </form>
+    </div>
 {{end}}

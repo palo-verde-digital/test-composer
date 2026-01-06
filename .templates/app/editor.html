@@ -6,7 +6,7 @@
         <div class="panel-section">
             <script>
                 function openTab(e, tab) {
-                    var contents = document.getElementsByClassName("tabcontent");
+                    var contents = document.getElementsByClassName("tab-content");
                     for (let i = 0; i < contents.length; i++) {
                         contents[i].style.display = "none";
                     }
@@ -36,7 +36,7 @@
             </ul>
 
             <div>
-                <div id="panel-apps" class="tabcontent" style="display: block;">
+                <div id="panel-apps" class="tab-content" style="display: block;">
                     <div id="panel-apps-content" 
                         hx-get="/project/app"
                         hx-trigger="load"
@@ -44,11 +44,11 @@
                         hx-target="#panel-apps-content"></div>
                 </div>
 
-                <div id="panel-infrastructure" class="tabcontent" style="display: none;">
+                <div id="panel-infrastructure" class="tab-content" style="display: none;">
                     this is the infra panel
                 </div>
 
-                <div id="panel-test" class="tabcontent" style="display: none;">
+                <div id="panel-test" class="tab-content" style="display: none;">
                     this is the test panel
                 </div>
             </div>
