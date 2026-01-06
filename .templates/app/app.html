@@ -1,20 +1,22 @@
 {{define "apps"}}
     {{range $appId, $app := .}}
-        <div id="panel-apps-{{$appId}}"
+        <div id="app-{{$appId}}"
             hx-get="/project/app/{{$appId}}"
             hx-trigger="load"
             hx-swap="outerHTML"
-            hx-target="#panel-apps-{{$appId}}"></div>
+            hx-target="#app-{{$appId}}"></div>
+
+        <br>
     {{end}}
 
     <button hx-get="/project/app/create" 
         hx-trigger="click"
         hx-swap="innerHTML"
-        hx-target="#panel-apps-content">+</button>
+        hx-target="#app-content">+</button>
 {{end}}
 
 {{define "app"}}
-    <div id="panel-apps-{{.Id}}" style="border: 1px dashed #F1F1F8; padding: 5px;">
+    <div id="app-{{.Id}}" class="n3 b1">
         <form>
             <label class="expanding-label" for="project-{{.Id}}-image">
                 <h4 style="margin: 0px;">container image |</h4>
@@ -26,7 +28,7 @@
                 hx-post="/project/app/{{.Id}}/image"
                 hx-trigger="change delay:500ms" 
                 hx-swap="outerHTML"
-                hx-target="#panel-apps-{{.Id}}" />
+                hx-target="#app-{{.Id}}" />
 
             <table id="project-{{.Id}}-env" style="margin-top: 5px; margin-bottom: 5px;">
                 <tr>
@@ -54,7 +56,7 @@
                             <button hx-delete="/project/app/{{$.Id}}/env/{{$envId}}"
                                 hx-trigger="click"
                                 hx-swap="outerHTML"
-                                hx-target="#panel-apps-{{$.Id}}">delete</button>
+                                hx-target="#app-{{$.Id}}">delete</button>
                         </td>
                     </tr>
                 {{end}}
@@ -72,7 +74,7 @@
                         <button hx-post="/project/app/{{.Id}}/env" 
                             hx-trigger="click"
                             hx-swap="outerHTML"
-                            hx-target="#panel-apps-{{.Id}}">+</button>
+                            hx-target="#app-{{.Id}}">+</button>
                     </td>
                 </tr>
             </table>
@@ -80,7 +82,7 @@
             <button hx-delete="/project/app/{{.Id}}" 
                 hx-trigger="click" 
                 hx-swap="innerHTML"
-                hx-target="#panel-apps-content">delete</button>
+                hx-target="#app-content">delete</button>
         </form>
     </div>
 {{end}}

@@ -1,9 +1,9 @@
 {{define "editor"}}
-<div class="panel" id="editor-page">
+<div class="container" id="editor-page">
     <h1>open project: {{.}}</h1>
 
-    <div class="panel-container">
-        <div class="panel-section">
+    <div class="panel-h">
+        <div class="panel-v n1">
             <script>
                 function openTab(e, tab) {
                     var contents = document.getElementsByClassName("tab-content");
@@ -36,25 +36,25 @@
             </ul>
 
             <div>
-                <div id="panel-apps" class="tab-content" style="display: block;">
-                    <div id="panel-apps-content" 
+                <div id="panel-apps" class="n2 b1 tab-content" style="gap: 8px; display: block;">
+                    <div id="app-content" 
                         hx-get="/project/app"
                         hx-trigger="load"
                         hx-swap="innerHTML"
-                        hx-target="#panel-apps-content"></div>
+                        hx-target="#app-content"></div>
                 </div>
 
-                <div id="panel-infrastructure" class="tab-content" style="display: none;">
+                <div id="panel-infrastructure" class="n2 b1 tab-content" style="display: none;">
                     this is the infra panel
                 </div>
 
-                <div id="panel-test" class="tab-content" style="display: none;">
+                <div id="panel-test" class="n2 b1 tab-content" style="display: none;">
                     this is the test panel
                 </div>
             </div>
         </div>
 
-        <div class="panel-section">
+        <div class="panel-v n1">
 
         </div>
     </div>

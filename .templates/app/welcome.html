@@ -2,8 +2,8 @@
 <div id="welcome-page">
     <h1>welcome page</h1>
 
-    <div class="panel">
-        <div class="panel-section" id="create-project-form">
+    <div class="container">
+        <div class="panel-v n1" id="create-project-form">
             <h2>create</h2>
 
             <form hx-post="/project/create"
@@ -18,7 +18,7 @@
             <h6 class="error">{{.CreateError}}</h6>
         </div>
 
-        <div class="panel-section" id="open-project-form">
+        <div class="panel-v n1" id="open-project-form">
             <h2>open</h2>
 
             <form hx-post="/project/open"
