@@ -18,19 +18,19 @@
 {{define "app"}}
     <div id="app-{{.Id}}" class="n3 b1">
         <form>
-            <label class="expanding-label" for="project-{{.Id}}-image">
+            <label class="expanding-label" for="app-{{.Id}}-image">
                 <h4 style="margin: 0px;">container image |</h4>
                 <h4 style="margin: 0px;" class="error">{{ .Errors.image }}</h4>
             </label>
                 
-            <input type="text" name="project-{{.Id}}-image" value="{{ .App.Image }}" 
+            <input type="text" name="app-{{.Id}}-image" value="{{ .App.Image }}" 
                 style="border-radius: 0;"
                 hx-post="/project/app/{{.Id}}/image"
                 hx-trigger="change delay:500ms" 
                 hx-swap="outerHTML"
                 hx-target="#app-{{.Id}}" />
 
-            <table id="project-{{.Id}}-env" style="margin-top: 5px; margin-bottom: 5px;">
+            <table id="app-{{.Id}}-env" style="margin-top: 5px; margin-bottom: 5px;">
                 <tr>
                     <th>environment variable</th>
                     <th>value</th>
@@ -39,14 +39,14 @@
                 {{range $envId, $env := .App.Env}}
                     <tr>
                         <td>
-                            <input class="table-item" type="text" name="project-{{$.Id}}-env-{{$envId}}-key" value="{{$env.Key}}"
+                            <input class="table-item" type="text" name="app-{{$.Id}}-env-{{$envId}}-key" value="{{$env.Key}}"
                                 hx-post="/project/app/{{$.Id}}/env/{{$envId}}"
                                 hx-trigger="change delay:500ms" 
                                 hx-swap="none" />
                         </td>
 
                         <td>
-                            <input class="table-item" type="text" name="project-{{$.Id}}-env-{{$envId}}-val" value="{{$env.Value}}"
+                            <input class="table-item" type="text" name="app-{{$.Id}}-env-{{$envId}}-val" value="{{$env.Value}}"
                                 hx-post="/project/app/{{$.Id}}/env/{{$envId}}"
                                 hx-trigger="change delay:500ms"
                                 hx-swap="none" />
@@ -63,11 +63,11 @@
 
                 <tr>
                     <td>
-                        <input class="table-item" type="text" name="project-{{.Id}}-env-key" />
+                        <input class="table-item" type="text" name="app-{{.Id}}-env-key" />
                     </td>
 
                     <td>
-                        <input class="table-item" type="text" name="project-{{.Id}}-env-val" />
+                        <input class="table-item" type="text" name="app-{{.Id}}-env-val" />
                     </td>
 
                     <td>

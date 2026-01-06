@@ -74,7 +74,7 @@ func updateAppImage(c echo.Context) error {
 	appId := c.Param("appId")
 	app := project.OpenProject.Apps[appId]
 
-	appImage := c.FormValue("project-" + appId + "-image")
+	appImage := c.FormValue("app-" + appId + "-image")
 	app.Image = appImage
 
 	project.OpenProject.Apps[appId] = app
@@ -102,8 +102,8 @@ func createAppEnv(c echo.Context) error {
 
 	appId := c.Param("appId")
 
-	envKey := c.FormValue("project-" + appId + "-env-key")
-	envVal := c.FormValue("project-" + appId + "-env-val")
+	envKey := c.FormValue("app-" + appId + "-env-key")
+	envVal := c.FormValue("app-" + appId + "-env-val")
 
 	project.OpenProject.Apps[appId].Env[uuid.NewString()] = project.Variable{
 		Key:   envKey,
@@ -125,8 +125,8 @@ func updateAppEnv(c echo.Context) error {
 	appId := c.Param("appId")
 	envId := c.Param("envId")
 
-	envKey := c.FormValue("project-" + appId + "-env-" + envId + "-key")
-	envValue := c.FormValue("project-" + appId + "-env-" + envId + "-val")
+	envKey := c.FormValue("app-" + appId + "-env-" + envId + "-key")
+	envValue := c.FormValue("app-" + appId + "-env-" + envId + "-val")
 
 	project.OpenProject.Apps[appId].Env[envId] = project.Variable{
 		Key:   envKey,

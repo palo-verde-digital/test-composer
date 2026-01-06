@@ -13,11 +13,6 @@ type welcomeData struct {
 	CreateError, OpenError string
 }
 
-const (
-	projectNameInput = "project-name"
-	projectFileInput = "project-file"
-)
-
 func RegisterRoutes(e *echo.Echo) {
 
 	e.POST("/project/create", createProject)
@@ -30,7 +25,7 @@ func createProject(c echo.Context) error {
 	log.Print("start - welcome.createProject")
 	defer log.Print("end - welcome.createProject")
 
-	projectName := c.FormValue(projectNameInput)
+	projectName := c.FormValue("project-name")
 	if strings.TrimSpace(projectName) == "" {
 		return c.Render(200, window.WelcomeTemplateName, welcomeData{CreateError: "project name is required"})
 	}
@@ -46,7 +41,7 @@ func openProject(c echo.Context) error {
 	log.Print("start - welcome.openProject")
 	defer log.Print("end - welcome.openProject")
 
-	fileInfo, err := c.FormFile(projectFileInput)
+	fileInfo, err := c.FormFile("project-file")
 	if err != nil {
 		return c.Render(200, window.WelcomeTemplateName, welcomeData{OpenError: "invalid file info"})
 	}
