@@ -26,10 +26,20 @@ type Project struct {
 func Create(projectName string) {
 
 	OpenProject = &Project{
-		Name:           projectName,
-		Apps:           make(map[string]Application),
-		Tests:          make(map[string]testcase.TestCase),
-		Infrastructure: &infrastructure.Infrastructure{},
+		Name:  projectName,
+		Apps:  make(map[string]Application),
+		Tests: make(map[string]testcase.TestCase),
+		Infrastructure: &infrastructure.Infrastructure{
+			Postgres: &infrastructure.Postgres{
+				Enabled: false,
+			},
+			Kafka: &infrastructure.Kafka{
+				Enabled: false,
+			},
+			Redis: &infrastructure.Redis{
+				Enabled: false,
+			},
+		},
 	}
 
 }

@@ -45,7 +45,11 @@
                 </div>
 
                 <div id="panel-infrastructure" class="n2 b1 tab-content" style="display: none;">
-                    this is the infra panel
+                    <div id="infra-content"
+                        hx-get="/project/infrastructure"
+                        hx-trigger="load"
+                        hx-swap="innerHTML"
+                        hx-target="#infra-content"></div>
                 </div>
 
                 <div id="panel-test" class="n2 b1 tab-content" style="display: none;">

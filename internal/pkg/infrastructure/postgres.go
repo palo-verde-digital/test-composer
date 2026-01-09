@@ -1,5 +1,6 @@
 package infrastructure
 
 type Postgres struct {
-	Databases []string `yaml:"databases"`
+	Enabled bool   `yaml:"enabled"`
+	Tag     string `yaml:"tag"`
 }

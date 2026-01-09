@@ -1,0 +1,91 @@
+{{define "infrastructure"}}
+    <div id="postgres-content"
+        hx-get="/project/infrastructure/postgres"
+        hx-trigger="load"
+        hx-swap="innerHTML"
+        hx-target="#postgres-content"></div>
+
+    <div id="kafka-content"
+        hx-get="/project/infrastructure/kafka"
+        hx-trigger="load"
+        hx-swap="innerHTML"
+        hx-target="#kafka-content"></div>
+
+    <div id="redis-content"
+        hx-get="/project/infrastructure/redis"
+        hx-trigger="load"
+        hx-swap="innerHTML"
+        hx-target="#redis-content"></div>
+{{end}}
+
+{{define "postgres"}}
+    <div class="panel-v n3 b1">
+        <h4>postgres</h4>
+        
+        <form>
+            <label>enabled</label>
+            <input name="postgres-enabled" type="checkbox" 
+                {{if .Enabled}}checked{{end}}
+                hx-post="/project/infrastructure/postgres"
+                hx-trigger="change delay:500ms"
+                hx-swap="innerHTML"
+                hx-target="#postgres-content"/>
+
+            <label>tag</label>
+            <input name="postgres-tag" type="text" value="{{.Tag}}"
+                {{if not .Enabled}}disabled{{end}}
+                hx-post="/project/infrastructure/postgres"
+                hx-trigger="change delay:500ms"
+                hx-swap="innerHTML"
+                hx-target="#postgres-content"/>
+        </form>
+    </div>
+{{end}}
+
+{{define "kafka"}}
+    <div class="panel-v n3 b1">
+        <h4>kafka</h4>
+
+        <form>
+            <label>enabled</label>
+            <input name="kafka-enabled" type="checkbox"
+                {{if .Enabled}}checked{{end}}
+                hx-post="/project/infrastructure/kafka"
+                hx-trigger="change delay:500ms"
+                hx-swap="innerHTML"
+                hx-target="#kafka-content"/>
+
+            <label>tag</label>
+            <input name="kafka-tag" type="text" value="{{.Tag}}"
+                {{if not .Enabled}}disabled{{end}}
+                hx-post="/project/infrastructure/kafka"
+                hx-trigger="change delay:500ms"
+                hx-swap="innerHTML"
+                hx-target="#kafka-content"/>
+        </form>
+    </div>
+{{end}}
+
+{{define "redis"}}
+    <div class="panel-v n3 b1">
+        <h4>redis</h4>
+
+        <form>
+            <label>enabled</label>
+            <input name="redis-enabled" type="checkbox"
+                {{if .Enabled}}checked{{end}}
+                hx-post="/project/infrastructure/redis"
+                hx-trigger="change delay:500ms"
+                hx-swap="innerHTML"
+                hx-target="#redis-content"/>
+
+            <label>tag</label>
+            <input name="redis-tag" type="text" value="{{.Tag}}"
+                {{if not .Enabled}}disabled{{end}}
+                hx-post="/project/infrastructure/redis"
+                hx-trigger="change delay:500ms"
+                hx-swap="innerHTML"
+                hx-target="#redis-content"/>
+        </form>
+    </div>
+{{end}}

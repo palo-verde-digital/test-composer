@@ -20,8 +20,8 @@ type appData struct {
 
 func readApps(c echo.Context) error {
 
-	log.Print("start - editor.readApps")
-	defer log.Print("end - editor.readApps")
+	log.Print("start - app.readApps")
+	defer log.Print("end - app.readApps")
 
 	return c.Render(200, window.AppsTemplateName, project.OpenProject.Apps)
 
@@ -29,8 +29,8 @@ func readApps(c echo.Context) error {
 
 func createApp(c echo.Context) error {
 
-	log.Print("start - editor.createApp")
-	defer log.Print("end - editor.createApp")
+	log.Print("start - app.createApp")
+	defer log.Print("end - app.createApp")
 
 	project.OpenProject.Apps[uuid.NewString()] = project.CreateApplication()
 
@@ -40,8 +40,8 @@ func createApp(c echo.Context) error {
 
 func readApp(c echo.Context) error {
 
-	log.Print("start - editor.readApp")
-	defer log.Print("end - editor.readApp")
+	log.Print("start - app.readApp")
+	defer log.Print("end - app.readApp")
 
 	appId := c.Param("appId")
 
@@ -54,8 +54,8 @@ func readApp(c echo.Context) error {
 
 func deleteApp(c echo.Context) error {
 
-	log.Print("start - editor.deleteApp")
-	defer log.Print("end - editor.deleteApp")
+	log.Print("start - app.deleteApp")
+	defer log.Print("end - app.deleteApp")
 
 	appId := c.Param("appId")
 	delete(project.OpenProject.Apps, appId)
@@ -66,8 +66,8 @@ func deleteApp(c echo.Context) error {
 
 func updateAppImage(c echo.Context) error {
 
-	log.Print("start - editor.updateAppImage")
-	defer log.Print("end - editor.updateAppImage")
+	log.Print("start - app.updateAppImage")
+	defer log.Print("end - app.updateAppImage")
 
 	errors := map[string]string{}
 
@@ -97,8 +97,8 @@ func updateAppImage(c echo.Context) error {
 
 func createAppEnv(c echo.Context) error {
 
-	log.Print("start - editor.createAppEnv")
-	defer log.Print("end - editor.createAppEnv")
+	log.Print("start - app.createAppEnv")
+	defer log.Print("end - app.createAppEnv")
 
 	appId := c.Param("appId")
 
@@ -119,8 +119,8 @@ func createAppEnv(c echo.Context) error {
 
 func updateAppEnv(c echo.Context) error {
 
-	log.Print("start - editor.updateAppEnv")
-	defer log.Print("end - editor.updateAppEnv")
+	log.Print("start - app.updateAppEnv")
+	defer log.Print("end - app.updateAppEnv")
 
 	appId := c.Param("appId")
 	envId := c.Param("envId")
@@ -142,8 +142,8 @@ func updateAppEnv(c echo.Context) error {
 
 func deleteAppEnv(c echo.Context) error {
 
-	log.Print("start - editor.deleteAppEnv")
-	defer log.Print("end - editor.deleteAppEnv")
+	log.Print("start - app.deleteAppEnv")
+	defer log.Print("end - app.deleteAppEnv")
 
 	appId := c.Param("appId")
 	envId := c.Param("envId")

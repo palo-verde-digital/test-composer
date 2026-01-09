@@ -8,11 +8,19 @@ import (
 )
 
 const (
-	TemplateName        = "index"
+	TemplateName = "index"
+
 	WelcomeTemplateName = "welcome"
-	EditorTemplateName  = "editor"
-	AppsTemplateName    = "apps"
-	AppTemplateName     = "app"
+
+	EditorTemplateName = "editor"
+
+	AppsTemplateName = "apps"
+	AppTemplateName  = "app"
+
+	InfraTemplateName    = "infrastructure"
+	PostgresTemplateName = "postgres"
+	KafkaTemplateName    = "kafka"
+	RedisTemplateName    = "redis"
 )
 
 func RegisterRoutes(e *echo.Echo) {

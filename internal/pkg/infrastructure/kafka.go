@@ -1,5 +1,7 @@
 package infrastructure
 
 type Kafka struct {
-	Topics []string `yaml:"topics"`
+	Enabled bool     `yaml:"enabled"`
+	Tag     string   `yaml:"tag"`
+	Topics  []string `yaml:"topics"`
 }
