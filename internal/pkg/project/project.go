@@ -35,6 +35,7 @@ func Create(projectName string) {
 			},
 			Kafka: &infrastructure.Kafka{
 				Enabled: false,
+				Topics:  make(map[string]string),
 			},
 			Redis: &infrastructure.Redis{
 				Enabled: false,

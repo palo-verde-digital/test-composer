@@ -3,6 +3,7 @@ package editor
 import (
 	"log"
 
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 
 	"github.com/palo-verde-digital/test-composer/internal/app/window"
@@ -61,6 +62,38 @@ func updateKafka(c echo.Context) error {
 
 	kafkaTag := c.FormValue("kafka-tag")
 	project.OpenProject.Infrastructure.Kafka.Tag = kafkaTag
+
+	kafkaTopic := c.FormValue("kafka-topic")
+	if kafkaTopic != "" {
+		log.Print(project.OpenProject.Infrastructure.Kafka.Topics)
+		project.OpenProject.Infrastructure.Kafka.Topics[uuid.NewString()] = kafkaTopic
+	}
+
+	return readKafka(c)
+
+}
+
+func updateKafkaTopic(c echo.Context) error {
+
+	log.Print("start - infrastructure.updateKafkaTopic")
+	defer log.Print("end - infrastructure.updateKafkaTopic")
+
+	topicId := c.Param("topicId")
+	topicName := c.FormValue("kafka-topic-" + topicId)
+
+	project.OpenProject.Infrastructure.Kafka.Topics[topicId] = topicName
+
+	return readKafka(c)
+
+}
+
+func deleteKafkaTopic(c echo.Context) error {
+
+	log.Print("start - infrastructure.deleteKafkaTopic")
+	defer log.Print("end - infrastructure.deleteKafkaTopic")
+
+	topicId := c.Param("topicId")
+	delete(project.OpenProject.Infrastructure.Kafka.Topics, topicId)
 
 	return readKafka(c)
 

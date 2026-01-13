@@ -62,6 +62,45 @@
                 hx-trigger="change delay:500ms"
                 hx-swap="innerHTML"
                 hx-target="#kafka-content"/>
+
+            <table id="kafka-topics">
+                <tr>
+                    <th>topic name</th>
+                </tr>
+
+                {{range $topicId, $topicName := .Topics}}
+                    <tr>
+                        <td>
+                            <input class="table-item" type="text" name="kafka-topic-{{$topicId}}" value="{{$topicName}}"
+                                {{if not $.Enabled}}disabled{{end}}
+                                hx-post="/project/infrastructure/kafka/{{$topicId}}"
+                                hx-trigger="change delay:500ms"
+                                hx-swap="none" />
+                        </td>
+                        <td>
+                            <button hx-delete="/project/infrastructure/kafka/{{$topicId}}"
+                                {{if not $.Enabled}}disabled{{end}}
+                                hx-trigger="click"
+                                hx-swap="innerHTML"
+                                hx-target="#kafka-content">delete</button>
+                        </td>
+                    </tr>
+                {{end}}
+
+                <tr>
+                    <td>
+                        <input class="table-item" type="text" name="kafka-topic"
+                            {{if not .Enabled}}disabled{{end}} />
+                    </td>
+                    <td>
+                        <button hx-post="/project/infrastructure/kafka"
+                            {{if not .Enabled}}disabled{{end}}
+                            hx-trigger="click"
+                            hx-swap="innerHTML"
+                            hx-target="#kafka-content">+</button>
+                    </td>
+                </tr>
+            </table>
         </form>
     </div>
 {{end}}
