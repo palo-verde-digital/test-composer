@@ -65,7 +65,6 @@ func updateKafka(c echo.Context) error {
 
 	kafkaTopic := c.FormValue("kafka-topic")
 	if kafkaTopic != "" {
-		log.Print(project.OpenProject.Infrastructure.Kafka.Topics)
 		project.OpenProject.Infrastructure.Kafka.Topics[uuid.NewString()] = kafkaTopic
 	}
 

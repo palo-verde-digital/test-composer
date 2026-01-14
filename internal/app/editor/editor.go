@@ -20,16 +20,15 @@ func RegisterRoutes(e *echo.Echo) {
 	e.GET("/project/infrastructure/kafka", readKafka)
 	e.GET("/project/infrastructure/redis", readRedis)
 
-	e.POST("/project/app/:appId/image", updateAppImage)
-	e.POST("/project/app/:appId/env", createAppEnv)
-	e.POST("/project/app/:appId/env/:envId", updateAppEnv)
+	e.POST("/project/app/:appId", updateApp)
+	e.POST("/project/app/:appId/:envId", updateAppEnv)
 	e.POST("/project/infrastructure/postgres", updatePostgres)
 	e.POST("/project/infrastructure/kafka", updateKafka)
 	e.POST("/project/infrastructure/kafka/:topicId", updateKafkaTopic)
 	e.POST("/project/infrastructure/redis", updateRedis)
 
 	e.DELETE("/project/app/:appId", deleteApp)
-	e.DELETE("/project/app/:appId/env/:envId", deleteAppEnv)
+	e.DELETE("/project/app/:appId/:envId", deleteAppEnv)
 	e.DELETE("/project/infrastructure/kafka/:topicId", deleteKafkaTopic)
 
 }

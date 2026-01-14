@@ -18,14 +18,50 @@
 {{define "app"}}
     <div id="app-{{.Id}}" class="n3 b1">
         <form>
+            <label class="expanding-label" for="app-{{.Id}}-name">
+                <h4 style="margin: 0px;">name |</h4>
+                <h4 style="margin: 0px;" class="error">{{ .Errs.name }}</h4>
+            </label>
+
+            <input type="text" name="app-{{.Id}}-name" value="{{.App.Name}}" 
+                style="border-radius: 0;"
+                hx-post="/project/app/{{.Id}}"
+                hx-trigger="change delay:500ms"
+                hx-swap="outerHTML"
+                hx-target="#app-{{.Id}}" />
+
             <label class="expanding-label" for="app-{{.Id}}-image">
                 <h4 style="margin: 0px;">container image |</h4>
-                <h4 style="margin: 0px;" class="error">{{ .Errors.image }}</h4>
+                <h4 style="margin: 0px;" class="error">{{ .Errs.image }}</h4>
             </label>
                 
             <input type="text" name="app-{{.Id}}-image" value="{{ .App.Image }}" 
                 style="border-radius: 0;"
-                hx-post="/project/app/{{.Id}}/image"
+                hx-post="/project/app/{{.Id}}"
+                hx-trigger="change delay:500ms" 
+                hx-swap="outerHTML"
+                hx-target="#app-{{.Id}}" />
+
+            <label for="app-{{.Id}}-isApi">
+                <h4 style="margin: 0px;">exposes api endpoints</h4>
+            </label>
+
+            <input name="app-{{.Id}}-isApi" type="checkbox" 
+                {{if .App.IsApi}}checked{{end}}
+                hx-post="/project/app/{{.Id}}"
+                hx-trigger="change delay:500ms"
+                hx-swap="outerHTML"
+                hx-target="#app-{{.Id}}"/>
+
+            <label class="expanding-label" for="app-{{.Id}}-apiPort">
+                <h4 style="margin: 0px;">port |</h4>
+                <h4 style="margin: 0px;" class="error">{{ .Errs.apiPort }}</h4>
+            </label>
+
+            <input type="text" name="app-{{.Id}}-apiPort" value="{{ .App.ApiPort }}"
+                {{if not .App.IsApi}}disabled{{end}}
+                style="border-radius: 0;"
+                hx-post="/project/app/{{.Id}}"
                 hx-trigger="change delay:500ms" 
                 hx-swap="outerHTML"
                 hx-target="#app-{{.Id}}" />
@@ -40,20 +76,20 @@
                     <tr>
                         <td>
                             <input class="table-item" type="text" name="app-{{$.Id}}-env-{{$envId}}-key" value="{{$env.Key}}"
-                                hx-post="/project/app/{{$.Id}}/env/{{$envId}}"
+                                hx-post="/project/app/{{$.Id}}/{{$envId}}"
                                 hx-trigger="change delay:500ms" 
                                 hx-swap="none" />
                         </td>
 
                         <td>
                             <input class="table-item" type="text" name="app-{{$.Id}}-env-{{$envId}}-val" value="{{$env.Value}}"
-                                hx-post="/project/app/{{$.Id}}/env/{{$envId}}"
+                                hx-post="/project/app/{{$.Id}}/{{$envId}}"
                                 hx-trigger="change delay:500ms"
                                 hx-swap="none" />
                         </td>
 
                         <td>
-                            <button hx-delete="/project/app/{{$.Id}}/env/{{$envId}}"
+                            <button hx-delete="/project/app/{{$.Id}}/{{$envId}}"
                                 hx-trigger="click"
                                 hx-swap="outerHTML"
                                 hx-target="#app-{{$.Id}}">delete</button>
@@ -71,7 +107,7 @@
                     </td>
 
                     <td>
-                        <button hx-post="/project/app/{{.Id}}/env" 
+                        <button hx-post="/project/app/{{.Id}}" 
                             hx-trigger="click"
                             hx-swap="outerHTML"
                             hx-target="#app-{{.Id}}">+</button>

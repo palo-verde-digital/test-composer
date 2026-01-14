@@ -2,20 +2,17 @@ package editor
 
 import (
 	"log"
-	"strings"
-	"unicode"
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/palo-verde-digital/test-composer/internal/app/window"
 	"github.com/palo-verde-digital/test-composer/internal/pkg/project"
-	"github.com/palo-verde-digital/test-composer/pkg/stringutil"
 )
 
 type appData struct {
-	Id     string
-	Errors map[string]string
-	App    project.Application
+	Id   string
+	Errs map[string]string
+	App  project.Application
 }
 
 func readApps(c echo.Context) error {
@@ -52,6 +49,46 @@ func readApp(c echo.Context) error {
 
 }
 
+func updateApp(c echo.Context) error {
+
+	log.Print("start - app.updateApp")
+	defer log.Print("end - app.updateApp")
+
+	errs := map[string]string{}
+
+	appId := c.Param("appId")
+	app := project.OpenProject.Apps[appId]
+
+	app.Name = c.FormValue("app-" + appId + "-name")
+	errs["name"] = project.ValidateApplicationName(app.Name)
+
+	app.Image = c.FormValue("app-" + appId + "-image")
+	errs["image"] = project.ValidateApplicationImage(appId, app.Image)
+
+	app.IsApi = c.FormValue("app-"+appId+"-isApi") == "on"
+
+	if app.IsApi {
+		app.ApiPort = c.FormValue("app-" + appId + "-apiPort")
+		errs["apiPort"] = project.ValidateApplicationApiPort(app.ApiPort)
+	}
+
+	envKey, envVal := c.FormValue("app-"+appId+"-env-key"), c.FormValue("app-"+appId+"-env-val")
+	if envKey != "" && envVal != "" {
+		app.Env[uuid.NewString()] = project.Variable{
+			Key:   envKey,
+			Value: envVal,
+		}
+	}
+
+	project.OpenProject.Apps[appId] = app
+	return c.Render(200, window.AppTemplateName, appData{
+		Id:   appId,
+		Errs: errs,
+		App:  app,
+	})
+
+}
+
 func deleteApp(c echo.Context) error {
 
 	log.Print("start - app.deleteApp")
@@ -61,59 +98,6 @@ func deleteApp(c echo.Context) error {
 	delete(project.OpenProject.Apps, appId)
 
 	return readApps(c)
-
-}
-
-func updateAppImage(c echo.Context) error {
-
-	log.Print("start - app.updateAppImage")
-	defer log.Print("end - app.updateAppImage")
-
-	errors := map[string]string{}
-
-	appId := c.Param("appId")
-	app := project.OpenProject.Apps[appId]
-
-	appImage := c.FormValue("app-" + appId + "-image")
-	app.Image = appImage
-
-	project.OpenProject.Apps[appId] = app
-
-	if !strings.Contains(appImage, ":") {
-		errors["image"] = "must be of format IMAGE_NAME:TAG"
-	} else if !unicode.IsLetter(rune(appImage[0])) {
-		errors["image"] = "must start w/ a lowercase letter"
-	} else if stringutil.ContainsUpper(appImage) {
-		errors["image"] = "cannot contain uppercase letters"
-	}
-
-	return c.Render(200, window.AppTemplateName, appData{
-		Id:     appId,
-		Errors: errors,
-		App:    app,
-	})
-
-}
-
-func createAppEnv(c echo.Context) error {
-
-	log.Print("start - app.createAppEnv")
-	defer log.Print("end - app.createAppEnv")
-
-	appId := c.Param("appId")
-
-	envKey := c.FormValue("app-" + appId + "-env-key")
-	envVal := c.FormValue("app-" + appId + "-env-val")
-
-	project.OpenProject.Apps[appId].Env[uuid.NewString()] = project.Variable{
-		Key:   envKey,
-		Value: envVal,
-	}
-
-	return c.Render(200, window.AppTemplateName, appData{
-		Id:  appId,
-		App: project.OpenProject.Apps[appId],
-	})
 
 }
 
